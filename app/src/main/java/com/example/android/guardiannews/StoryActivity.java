@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoryActivity extends AppCompatActivity {
@@ -44,7 +46,7 @@ public class StoryActivity extends AppCompatActivity {
 
         @Override
         public void onLoaderReset(Loader<List<Story>> loader) {
-            //TODO Write method to clear the adapter
+            mAdapter.clear();
         }
     }
 
@@ -52,6 +54,24 @@ public class StoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
+
+        //Set context
+        appContext = this;
+
+        //Set listView in layout
+        ListView storyView = findViewById(R.layout.activity_story);
+
+        //Set empty state textview
+        mEmptyStateView = findViewById(R.id.empty_view);
+        storyView.setEmptyView(mEmptyStateView);
+
+        //Create a new story adapter that takes a list of stories as input
+        mAdapter = new StoryAdapter(appContext,new ArrayList<Story>());
+
+        //Set the adapter to the ListView
+        storyView.setAdapter(mAdapter);
+
+        //TODO Set the onItemClickListener
 
 
 
