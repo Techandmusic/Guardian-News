@@ -2,9 +2,15 @@ package com.example.android.guardiannews;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +33,7 @@ public class StoryActivity extends AppCompatActivity {
     //Context variable
     private Context appContext;
 
-    private LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
+    private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
         public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
             StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
@@ -72,6 +78,32 @@ public class StoryActivity extends AppCompatActivity {
         storyView.setAdapter(mAdapter);
 
         //TODO Set the onItemClickListener
+        storyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Find current story in story adapter
+                Story currentStory = mAdapter.getItem(position);
+                //Get url from current story
+                Uri storyUri = Uri.parse(currentStory.getStoryURL());
+                //Create intent to view story at the URL
+                Intent webStoryIntent = new Intent(Intent.ACTION_VIEW, storyUri);
+                //Launch intent
+                startActivity(webStoryIntent);
+            }
+        });
+        //Setup the connectivity manager and check connection status
+        ConnectivityManager connectMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        //Check currently active network
+        NetworkInfo netInfo = connectMgr.getActiveNetworkInfo();
+
+        //If there is an active network connection get data otherwise display error
+        if (netInfo != null && netInfo.isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
+        } else {
+
+        }
 
 
 
