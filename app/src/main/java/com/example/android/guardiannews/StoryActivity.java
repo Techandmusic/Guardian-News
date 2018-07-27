@@ -1,8 +1,13 @@
 package com.example.android.guardiannews;
 
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class StoryActivity extends AppCompatActivity {
     //URL to access API
@@ -17,9 +22,39 @@ public class StoryActivity extends AppCompatActivity {
     //TextView for EmptyState
     private TextView mEmptyStateView;
 
+    //Context variable
+    private Context appContext;
+
+    private LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
+        @Override
+        public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
+            StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
+            return loader;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<List<Story>> loader, List<Story> data) {
+            //Set text for empty state to "no news" string
+            mEmptyStateView.setText(R.string.no_news);
+            //If news stores are available then add them to the adapter
+            if (stories != null && !stories.isEmpty()) {
+                mAdapter.addAll(stories);
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<List<Story>> loader) {
+            //TODO Write method to clear the adapter
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
+
+
+
+
     }
 }

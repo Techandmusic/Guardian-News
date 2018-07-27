@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Guardian News</string>
+    <string name="no_news">No News Stories Available</string>
 </resources>
