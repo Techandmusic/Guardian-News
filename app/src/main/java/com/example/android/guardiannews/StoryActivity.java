@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class StoryActivity extends AppCompatActivity {
 
     //Context variable
     private Context appContext;
+
+
 
     private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
@@ -102,6 +105,11 @@ public class StoryActivity extends AppCompatActivity {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
         } else {
+            View progress = findViewById(R.id.progressBar1);
+            progress.setVisibility(View.GONE);
+
+
+            mEmptyStateView.setText(R.string.no_internet);
 
         }
 

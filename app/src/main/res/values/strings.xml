@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Guardian News</string>
     <string name="no_news">No News Stories Available</string>
+    <string name="no_internet">No Internet Connection Avaiable</string>
 </resources>
