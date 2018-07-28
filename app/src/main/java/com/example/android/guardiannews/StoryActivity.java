@@ -7,12 +7,11 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,10 +34,11 @@ public class StoryActivity extends AppCompatActivity {
     private Context appContext;
 
 
-
     private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
         public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
+          //  View progressBar = findViewById(R.id.progressBar1);
+         //   progressBar.setVisibility(View.GONE);
             StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
             return loader;
         }
@@ -48,8 +48,8 @@ public class StoryActivity extends AppCompatActivity {
             //Set text for empty state to "no news" string
             mEmptyStateView.setText(R.string.no_news);
             //If news stores are available then add them to the adapter
-            if (stories != null && !stories.isEmpty()) {
-                mAdapter.addAll(stories);
+            if (data != null && !data.isEmpty()) {
+                mAdapter.addAll(data);
             }
         }
 
@@ -57,7 +57,7 @@ public class StoryActivity extends AppCompatActivity {
         public void onLoaderReset(Loader<List<Story>> loader) {
             mAdapter.clear();
         }
-    }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +68,14 @@ public class StoryActivity extends AppCompatActivity {
         appContext = this;
 
         //Set listView in layout
-        ListView storyView = findViewById(R.layout.activity_story);
+        ListView storyView = findViewById(R.id.story_view);
 
         //Set empty state textview
         mEmptyStateView = findViewById(R.id.empty_view);
         storyView.setEmptyView(mEmptyStateView);
 
         //Create a new story adapter that takes a list of stories as input
-        mAdapter = new StoryAdapter(appContext,new ArrayList<Story>());
+        mAdapter = new StoryAdapter(appContext, new ArrayList<Story>());
 
         //Set the adapter to the ListView
         storyView.setAdapter(mAdapter);
@@ -112,8 +112,6 @@ public class StoryActivity extends AppCompatActivity {
             mEmptyStateView.setText(R.string.no_internet);
 
         }
-
-
 
 
     }

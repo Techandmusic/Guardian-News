@@ -31,7 +31,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         //inflate a new list item layout
         View listItemView = convertView;
         if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.story);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.story, parent, false);
         }
         //Get current story according to position in list
         Story currentStory = getItem(position);
@@ -47,6 +47,8 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         //Assign story date to TextView
         TextView storyDate = (TextView) listItemView.findViewById(R.id.date);
         storyDate.setText(currentStory.getStoryDate());
+
+        return listItemView;
 
     }
 
