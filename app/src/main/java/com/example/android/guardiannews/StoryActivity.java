@@ -49,6 +49,7 @@ public class StoryActivity extends AppCompatActivity {
         public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
             //Set text for empty state to "no news" string
             mEmptyStateView.setText(R.string.no_news);
+            mAdapter.clear();
             //If news stores are available then add them to the adapter
             if (stories != null && !stories.isEmpty()) {
                 mAdapter.addAll(stories);
