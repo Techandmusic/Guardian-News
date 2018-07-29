@@ -41,8 +41,6 @@ public class StoryActivity extends AppCompatActivity {
     private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
         public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
-          //  View progressBar = findViewById(R.id.progressBar1);
-         //   progressBar.setVisibility(View.GONE);
             StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
             return loader;
         }
