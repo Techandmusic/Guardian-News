@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,6 +34,9 @@ public class StoryActivity extends AppCompatActivity {
     //Context variable
     private Context appContext;
 
+    //Tag for log messages
+    private static final String LOG_TAG = StoryActivity.class.getSimpleName();
+
 
     private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
@@ -44,12 +48,14 @@ public class StoryActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onLoadFinished(Loader<List<Story>> loader, List<Story> data) {
+        public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
             //Set text for empty state to "no news" string
             mEmptyStateView.setText(R.string.no_news);
             //If news stores are available then add them to the adapter
-            if (data != null && !data.isEmpty()) {
-                mAdapter.addAll(data);
+            if (stories != null && !stories.isEmpty()) {
+                mAdapter.addAll(stories);
+            } else {
+                Log.e(LOG_TAG, "Adapter contains no data.");
             }
         }
 
