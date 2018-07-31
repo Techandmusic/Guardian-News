@@ -37,6 +37,12 @@ public class StoryActivity extends AppCompatActivity {
     //Tag for log messages
     private static final String LOG_TAG = StoryActivity.class.getSimpleName();
 
+    //View for progress Bar
+    private View progress;
+
+    //List view for news stories
+    private ListView storyView;
+
 
     private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
         @Override
@@ -48,8 +54,9 @@ public class StoryActivity extends AppCompatActivity {
         @Override
         public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
             //Set text for empty state to "no news" string
-            mEmptyStateView.setText(R.string.no_news);
-            mAdapter.clear();
+         //   mEmptyStateView.setText(R.string.no_news);
+         //   mEmptyStateView.setVisibility(View.GONE);
+            storyView.setVisibility(View.VISIBLE);
             //If news stores are available then add them to the adapter
             if (stories != null && !stories.isEmpty()) {
                 mAdapter.addAll(stories);
@@ -73,10 +80,12 @@ public class StoryActivity extends AppCompatActivity {
         appContext = this;
 
         //Set listView in layout
-        ListView storyView = findViewById(R.id.story_view);
+        storyView = findViewById(R.id.story_view);
+
 
         //Set empty state textview
         mEmptyStateView = findViewById(R.id.empty_view);
+        mEmptyStateView.setText(R.string.no_news);
         storyView.setEmptyView(mEmptyStateView);
 
         //Create a new story adapter that takes a list of stories as input
@@ -110,7 +119,7 @@ public class StoryActivity extends AppCompatActivity {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
         } else {
-            View progress = findViewById(R.id.progressBar1);
+            progress = findViewById(R.id.progressBar1);
             progress.setVisibility(View.GONE);
 
 

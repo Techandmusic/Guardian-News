@@ -17,7 +17,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
     /*Constructor method for StoryAdapter object
     * @param context is the context of the app
     * @param stories is a list of news stories pulled from the Guardian API*/
-
+    //TODO Rewrite adapter class
 
     public StoryAdapter(Context context, List<Story> stories) {
         super(context, 0, stories);
