@@ -44,32 +44,7 @@ public class StoryActivity extends AppCompatActivity {
     private ListView storyView;
 
 
-    private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
-        @Override
-        public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
-            StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
-            return loader;
-        }
 
-        @Override
-        public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
-            //Set text for empty state to "no news" string
-         //   mEmptyStateView.setText(R.string.no_news);
-         //   mEmptyStateView.setVisibility(View.GONE);
-            storyView.setVisibility(View.VISIBLE);
-            //If news stores are available then add them to the adapter
-            if (stories != null && !stories.isEmpty()) {
-                mAdapter.addAll(stories);
-            } else {
-                Log.e(LOG_TAG, "Adapter contains no data.");
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<List<Story>> loader) {
-            mAdapter.clear();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +58,18 @@ public class StoryActivity extends AppCompatActivity {
         storyView = findViewById(R.id.story_view);
 
 
-        //Set empty state textview
-        mEmptyStateView = findViewById(R.id.empty_view);
-        mEmptyStateView.setText(R.string.no_news);
-        storyView.setEmptyView(mEmptyStateView);
+
 
         //Create a new story adapter that takes a list of stories as input
         mAdapter = new StoryAdapter(appContext, new ArrayList<Story>());
 
         //Set the adapter to the ListView
         storyView.setAdapter(mAdapter);
+
+        //Set empty state textview
+        mEmptyStateView = findViewById(R.id.empty_view);
+        mEmptyStateView.setText(R.string.no_news);
+        storyView.setEmptyView(mEmptyStateView);
 
         //TODO Set the onItemClickListener
         storyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,6 +85,7 @@ public class StoryActivity extends AppCompatActivity {
                 startActivity(webStoryIntent);
             }
         });
+
         //Setup the connectivity manager and check connection status
         ConnectivityManager connectMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -128,5 +106,33 @@ public class StoryActivity extends AppCompatActivity {
         }
 
 
+
     }
+
+    private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
+        @Override
+        public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
+            StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
+            return loader;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
+            //Set text for empty state to "no news" string
+            //   mEmptyStateView.setText(R.string.no_news);
+            //   mEmptyStateView.setVisibility(View.GONE);
+            storyView.setVisibility(View.VISIBLE);
+            //If news stores are available then add them to the adapter
+            if (stories != null && !stories.isEmpty()) {
+                mAdapter.addAll(stories);
+            } else {
+                Log.e(LOG_TAG, "Adapter contains no data.");
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<List<Story>> loader) {
+            mAdapter.clear();
+        }
+    };
 }

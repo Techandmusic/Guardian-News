@@ -2,26 +2,26 @@ package com.example.android.guardiannews;
 
 public class Story {
     //String variables for list items
-    private String storyTitle, storySection, storyDate, storyURL;
+    private String title, section, pubDate, url;
 
     public Story(String mTitle, String mSection, String mDate, String mUrl) {
-        mTitle = storyTitle;
-        mSection = storySection;
-        mDate = storyDate;
-        mUrl = storyURL;
+        title = mTitle;
+        section = mSection;
+        pubDate = mDate;
+        url = mUrl;
     }
 
     public String getStoryTitle() {
-        return storyTitle;
+        return title;
     }
 
     public String getStorySection() {
-        return storySection;
+        return section;
     }
 
     public String getStoryDate() {
-        return storyDate;
+        return pubDate;
     }
 
-    public String getStoryURL() { return storyURL; }
+    public String getStoryURL() { return url; }
 }
