@@ -38,7 +38,7 @@ public class QueryUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem encountered with http request.", e);
+            Log.e(LOG_TAG, "fetchNewsStories: Problem encountered with http request.", e);
         }
 
         //Extract relevant fields from JSON to create list of news stories
@@ -54,7 +54,7 @@ public class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the url.", e);
+            Log.e(LOG_TAG, "createURL: Problem building the url.", e);
         }
         return url;
 
@@ -83,10 +83,10 @@ public class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, "makeHttpRequest: Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving news stories.", e);
+            Log.e(LOG_TAG, "makeHttpRequest: Problem retrieving news stories.", e);
         } finally {
             if (urlConnection == null) {
                 urlConnection.disconnect();
@@ -115,9 +115,9 @@ public class QueryUtils {
     }
 
     //Parses JSON response and returns a list of story objects
-    private static List<Story> extractResultsFromJson(String newsJson) {
+    private static List<Story> extractResultsFromJson(String jsonResponse) {
         //Return early if empty or null String
-        if (TextUtils.isEmpty(newsJson)) {
+        if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
 
@@ -127,10 +127,13 @@ public class QueryUtils {
         //Parse json response String
         try {
             //Create a jsonObject from the response String
-            JSONObject mainJsonResponse = new JSONObject(newsJson);
+            JSONObject mainJsonResponse = new JSONObject(jsonResponse);
+
+            //Create a jsonObject to parse the top level result from response
+            JSONObject mainJsonResponseResult = mainJsonResponse.getJSONObject("response");
 
             //Extract the associated JSON array from the response
-            JSONArray resultArray = mainJsonResponse.getJSONArray("results");
+            JSONArray resultArray = mainJsonResponseResult.getJSONArray("results");
 
             //Create a Story object for each story in the Array
             for (int i = 0; i < resultArray.length(); ++i) {
@@ -151,7 +154,7 @@ public class QueryUtils {
 
             }
         } catch (JSONException e) {
-            Log.e("Utils", "Problem parsing JSON results.", e);
+            Log.e("Utils", "extractResultsFromJson: Problem parsing JSON results.", e);
         }
 
         return stories;

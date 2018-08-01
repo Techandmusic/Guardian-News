@@ -20,7 +20,7 @@ import java.util.List;
 
 public class StoryActivity extends AppCompatActivity {
     //URL to access API
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&api-key=c8703a02-b362-46bc-a071-be6ec2eca354";
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&section=technology&pageSize=10&api-key=c8703a02-b362-46bc-a071-be6ec2eca354&show-tags=contributors";
 
     //Constant int value for loader
     private final int STORY_LOADER_ID = 1;
@@ -43,7 +43,7 @@ public class StoryActivity extends AppCompatActivity {
     //List view for news stories
     private ListView storyView;
 
-
+    //TODO Fine tuning and visual polish
 
 
     @Override
@@ -71,7 +71,7 @@ public class StoryActivity extends AppCompatActivity {
         mEmptyStateView.setText(R.string.no_news);
         storyView.setEmptyView(mEmptyStateView);
 
-        //TODO Set the onItemClickListener
+
         storyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
