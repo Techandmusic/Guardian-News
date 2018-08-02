@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="spacing">
+        <item name="android:paddingLeft">@dimen/small_space</item>
+        <item name="android:paddingBottom">@dimen/medium_space</item>
+    </style>
+
 </resources>

@@ -7,22 +7,29 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"/>
+        android:id="@+id/title"
+        style="@style/spacing"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/section"/>
+        android:id="@+id/section"
+        style="@style/spacing"
+        android:textStyle="bold"/>
+
+ <!--   <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/author"
+        style="@style/spacing"/> -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/author"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/date"/>
+        android:id="@+id/date"
+        style="@style/spacing"/>
 
 
 </LinearLayout>
