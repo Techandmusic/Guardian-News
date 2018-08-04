@@ -19,11 +19,7 @@
         style="@style/spacing"
         android:textStyle="bold"/>
 
- <!--   <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/author"
-        style="@style/spacing"/> -->
+    <!-- None of the queries returned an author so the author TextView was removed    -->
 
     <TextView
         android:layout_width="match_parent"

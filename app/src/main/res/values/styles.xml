@@ -11,6 +11,7 @@
     <style name="spacing">
         <item name="android:paddingLeft">@dimen/small_space</item>
         <item name="android:paddingBottom">@dimen/medium_space</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 </resources>

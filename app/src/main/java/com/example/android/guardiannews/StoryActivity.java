@@ -51,6 +51,25 @@ public class StoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
+        //Setup the connectivity manager and check connection status
+        ConnectivityManager connectMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        //Check currently active network
+        NetworkInfo netInfo = connectMgr.getActiveNetworkInfo();
+
+        //If there is an active network connection get data otherwise display error
+        if (netInfo != null && netInfo.isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
+        } else {
+            progress = findViewById(R.id.progressBar1);
+            progress.setVisibility(View.GONE);
+
+
+            mEmptyStateView.setText(R.string.no_internet);
+
+        }
+
         //Set context
         appContext = this;
 
@@ -86,24 +105,7 @@ public class StoryActivity extends AppCompatActivity {
             }
         });
 
-        //Setup the connectivity manager and check connection status
-        ConnectivityManager connectMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        //Check currently active network
-        NetworkInfo netInfo = connectMgr.getActiveNetworkInfo();
-
-        //If there is an active network connection get data otherwise display error
-        if (netInfo != null && netInfo.isConnected()) {
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
-        } else {
-            progress = findViewById(R.id.progressBar1);
-            progress.setVisibility(View.GONE);
-
-
-            mEmptyStateView.setText(R.string.no_internet);
-
-        }
 
 
 

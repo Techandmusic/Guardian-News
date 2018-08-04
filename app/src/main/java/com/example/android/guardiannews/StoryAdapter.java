@@ -20,7 +20,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
     /*Constructor method for StoryAdapter object
     * @param context is the context of the app
     * @param stories is a list of news stories pulled from the Guardian API*/
-    //TODO Rewrite adapter class
+
 
     public StoryAdapter(Context context, List<Story> stories) {
         super(context, 0, stories);
@@ -47,11 +47,10 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         TextView storySection = (TextView) listItemView.findViewById(R.id.section);
         storySection.setText(currentStory.getStorySection());
 
-     //   Date dateObject = new Date(currentStory.getStoryDate());
+
 
         //Assign story date to TextView
         TextView storyDate = (TextView) listItemView.findViewById(R.id.date);
-     //   String formattedDate = dateFormat(dateObject);
         storyDate.setText(currentStory.getStoryDate());
 
 
@@ -59,11 +58,8 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 
     }
 
-    //Return properly formatted date from a date object
-    private String dateFormat(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
-        return dateFormat.format(dateObject);
-    }
+
+
 
 
 
