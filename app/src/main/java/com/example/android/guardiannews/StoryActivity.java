@@ -13,12 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryActivity extends AppCompatActivity {
+public class StoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Story>> {
     //URL to access API
     private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&section=technology&pageSize=10&api-key=c8703a02-b362-46bc-a071-be6ec2eca354&show-tags=contributors";
 
@@ -38,12 +39,12 @@ public class StoryActivity extends AppCompatActivity {
     private static final String LOG_TAG = StoryActivity.class.getSimpleName();
 
     //View for progress Bar
-    private View progress;
+    private View loadIndicator;
 
     //List view for news stories
     private ListView storyView;
 
-    //TODO Fine tuning and visual polish
+    //TODO Visual polish
 
 
     @Override
@@ -51,27 +52,8 @@ public class StoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
-        //Setup the connectivity manager and check connection status
-        ConnectivityManager connectMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        //Check currently active network
-        NetworkInfo netInfo = connectMgr.getActiveNetworkInfo();
-
-        //If there is an active network connection get data otherwise display error
-        if (netInfo != null && netInfo.isConnected()) {
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(STORY_LOADER_ID, null, loaderCallbacks);
-        } else {
-            progress = findViewById(R.id.progressBar1);
-            progress.setVisibility(View.GONE);
-
-
-            mEmptyStateView.setText(R.string.no_internet);
-
-        }
-
         //Set context
-        appContext = this;
+
 
         //Set listView in layout
         storyView = findViewById(R.id.story_view);
@@ -80,15 +62,34 @@ public class StoryActivity extends AppCompatActivity {
 
 
         //Create a new story adapter that takes a list of stories as input
-        mAdapter = new StoryAdapter(appContext, new ArrayList<Story>());
+        mAdapter = new StoryAdapter(this, new ArrayList<Story>());
+
 
         //Set the adapter to the ListView
         storyView.setAdapter(mAdapter);
 
+
         //Set empty state textview
-        mEmptyStateView = findViewById(R.id.empty_view);
-        mEmptyStateView.setText(R.string.no_news);
-        storyView.setEmptyView(mEmptyStateView);
+        mEmptyStateView = (TextView) findViewById(R.id.empty_view);
+
+        //Setup the connectivity manager and check connection status
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        //Check currently active network
+        NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
+
+        //If there is an active network connection get data otherwise display error
+        if (netInfo != null && netInfo.isConnected()) {
+            LoaderManager loadMgr = getLoaderManager();
+            loadMgr.initLoader(STORY_LOADER_ID, null, this);
+        } else {
+            loadIndicator = (ProgressBar) findViewById(R.id.progressBar1);
+            loadIndicator.setVisibility(View.GONE);
+            //Set empty state view to no internet message
+            mEmptyStateView.setText(R.string.no_internet);
+        }
+
 
 
         storyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,30 +112,30 @@ public class StoryActivity extends AppCompatActivity {
 
     }
 
-    private final LoaderManager.LoaderCallbacks<List<Story>> loaderCallbacks = new LoaderManager.LoaderCallbacks<List<Story>>() {
-        @Override
-        public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
-            StoryLoader loader = new StoryLoader(appContext, GUARDIAN_REQUEST_URL);
-            return loader;
-        }
+    @Override
+    public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
+        return new StoryLoader(this, GUARDIAN_REQUEST_URL);
+    }
 
-        @Override
-        public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
-            //Set text for empty state to "no news" string
-            //   mEmptyStateView.setText(R.string.no_news);
-            //   mEmptyStateView.setVisibility(View.GONE);
-            storyView.setVisibility(View.VISIBLE);
-            //If news stores are available then add them to the adapter
-            if (stories != null && !stories.isEmpty()) {
-                mAdapter.addAll(stories);
-            } else {
-                Log.e(LOG_TAG, "Adapter contains no data.");
-            }
+    @Override
+    public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
+        //Hide loading indicator
+        loadIndicator = (ProgressBar) findViewById(R.id.progressBar1);
+        loadIndicator.setVisibility(View.GONE);
+        //Set empty state text view to empty state message
+        mEmptyStateView.setText(R.string.no_news);
+        mEmptyStateView.setVisibility(View.GONE);
+        //If news stores are available then add them to the adapter
+        if (stories != null && !stories.isEmpty()) {
+            mAdapter.addAll(stories);
+        } else {
+            Log.e(LOG_TAG, "Adapter contains no data.");
         }
+    }
 
-        @Override
-        public void onLoaderReset(Loader<List<Story>> loader) {
-            mAdapter.clear();
-        }
-    };
+    @Override
+    public void onLoaderReset(Loader<List<Story>> loader) {
+        mAdapter.clear();
+    }
+
 }
