@@ -8,15 +8,14 @@ import java.util.List;
 
 public class StoryLoader extends AsyncTaskLoader<List<Story>> {
 
-    private String mUrl;
     private static final String LOG_TAG = StoryLoader.class.getSimpleName();
+    private String mUrl;
 
     public StoryLoader(Context context, String url) {
         super(context);
         mUrl = url;
 
     }
-
 
 
     @Override

@@ -7,19 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class StoryAdapter extends ArrayAdapter<Story> {
 
 
     /*Constructor method for StoryAdapter object
-    * @param context is the context of the app
-    * @param stories is a list of news stories pulled from the Guardian API*/
+     * @param context is the context of the app
+     * @param stories is a list of news stories pulled from the Guardian API*/
 
 
     public StoryAdapter(Context context, List<Story> stories) {
@@ -48,7 +43,6 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         storySection.setText(currentStory.getStorySection());
 
 
-
         //Assign story date to TextView
         TextView storyDate = (TextView) listItemView.findViewById(R.id.date);
         storyDate.setText(currentStory.getStoryDate());
@@ -57,13 +51,6 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         return listItemView;
 
     }
-
-
-
-
-
-
-
 
 
 }

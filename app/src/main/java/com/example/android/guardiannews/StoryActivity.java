@@ -22,29 +22,21 @@ import java.util.List;
 public class StoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Story>> {
     //URL to access API
     private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&section=technology&pageSize=10&api-key=c8703a02-b362-46bc-a071-be6ec2eca354&show-tags=contributors";
-
-    //Constant int value for loader
-    private final int STORY_LOADER_ID = 1;
-
-    //Adapter instance
-    private StoryAdapter mAdapter;
-
-    //TextView for EmptyState
-    private TextView mEmptyStateView;
-
-    //Context variable
-    private Context appContext;
-
     //Tag for log messages
     private static final String LOG_TAG = StoryActivity.class.getSimpleName();
-
+    //Constant int value for loader
+    private final int STORY_LOADER_ID = 1;
+    //Adapter instance
+    private StoryAdapter mAdapter;
+    //TextView for EmptyState
+    private TextView mEmptyStateView;
     //View for progress Bar
     private View loadIndicator;
 
     //List view for news stories
     private ListView storyView;
 
-    //TODO Visual polish
+
 
 
     @Override
@@ -52,13 +44,10 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
-        //Set context
 
 
         //Set listView in layout
         storyView = findViewById(R.id.story_view);
-
-
 
 
         //Create a new story adapter that takes a list of stories as input
@@ -91,7 +80,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         }
 
 
-
         storyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,9 +93,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
                 startActivity(webStoryIntent);
             }
         });
-
-
-
 
 
     }
