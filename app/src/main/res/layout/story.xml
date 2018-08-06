@@ -20,7 +20,11 @@
         android:layout_height="wrap_content"
         android:textStyle="bold" />
 
-    <!-- None of the queries returned an author so the author TextView was removed    -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/author"
+        style="@style/spacing"/>
 
     <TextView
         android:id="@+id/date"

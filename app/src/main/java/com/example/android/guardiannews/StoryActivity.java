@@ -21,7 +21,7 @@ import java.util.List;
 
 public class StoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Story>> {
     //URL to access API
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&section=technology&pageSize=10&api-key=c8703a02-b362-46bc-a071-be6ec2eca354&show-tags=contributors";
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=smartphone&section=technology&show-tags=contributors&pageSize=10&api-key=c8703a02-b362-46bc-a071-be6ec2eca354";
     //Tag for log messages
     private static final String LOG_TAG = StoryActivity.class.getSimpleName();
     //Constant int value for loader

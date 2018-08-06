@@ -147,8 +147,21 @@ public class QueryUtils {
                 String url = currentStory.getString("webUrl");
                 //Extract value for key webPublicationDate
                 String pubDate = currentStory.getString("webPublicationDate");
+                //Author string variable initialized
+                String author = "";
 
-                Story story = new Story(title, section, pubDate, url);
+                JSONArray authorArray = currentStory.getJSONArray("tags");
+
+                if (authorArray.length() == 0) {
+                    author = "Author Name Unavailable";
+                } else {
+                    for (int j = 0; j < authorArray.length(); ++j) {
+                        JSONObject currentAuthor = authorArray.getJSONObject(j);
+                        author += currentAuthor.toString();
+                    }
+                }
+
+                Story story = new Story(title, section, author, pubDate, url);
 
                 stories.add(story);
 
