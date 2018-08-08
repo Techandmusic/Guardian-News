@@ -156,8 +156,11 @@ public class QueryUtils {
                     author = "Author Name Unavailable";
                 } else {
                     for (int j = 0; j < authorArray.length(); ++j) {
-                        JSONObject currentAuthor = authorArray.getJSONObject(j);
-                        author += currentAuthor.toString();
+                        JSONObject currentTags = authorArray.getJSONObject(j);
+
+                        String authorName = currentTags.getString("webTitle");
+                        author = authorName;
+
                     }
                 }
 
