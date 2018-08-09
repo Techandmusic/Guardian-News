@@ -107,7 +107,7 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         //Hide loading indicator
         loadIndicator = (ProgressBar) findViewById(R.id.progressBar1);
         loadIndicator.setVisibility(View.GONE);
-        //Set empty state text view to empty state message
+        //Set empty state text view with id empty_view in activity_story.xml to empty state message
         mEmptyStateView.setText(R.string.no_news);
         mEmptyStateView.setVisibility(View.GONE);
         //If news stores are available then add them to the adapter
