@@ -109,10 +109,12 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         loadIndicator.setVisibility(View.GONE);
         //Set empty state text view with id empty_view in activity_story.xml to empty state message
         mEmptyStateView.setText(R.string.no_news);
-        mEmptyStateView.setVisibility(View.GONE);
-        //If news stores are available then add them to the adapter
+        /*If news stores are available then add them to the adapter
+        * and set mEmptyStateView visibility to GONE so it does not
+        * appear along with the desired ListView*/
         if (stories != null && !stories.isEmpty()) {
             mAdapter.addAll(stories);
+            mEmptyStateView.setVisibility(View.GONE);
         } else {
             Log.e(LOG_TAG, "Adapter contains no data.");
         }
