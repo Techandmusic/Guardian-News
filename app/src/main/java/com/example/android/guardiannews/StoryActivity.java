@@ -4,10 +4,12 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -34,9 +36,14 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
     private TextView mEmptyStateView;
     //View for progress Bar
     private View loadIndicator;
+    //Shared preferences listener
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 
     //List view for news stories
     private ListView storyView;
+
+    //Loader callbacks
+    private LoaderManager.LoaderCallbacks lCallbacks;
 
 
 
@@ -45,7 +52,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
-
 
 
         //Set listView in layout
@@ -62,6 +68,30 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
 
         //Set empty state textview
         mEmptyStateView = (TextView) findViewById(R.id.empty_view);
+
+        //Initialize OnSharedPreferenceChangeListener
+        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(R.string.topic_key)) {
+                    //Clear the ListView to start a new Query
+                    mAdapter.clear();
+                    //Hide empty state TextView so that loading indicator will display
+                    mEmptyStateView.setVisibility(View.GONE);
+                    //Show loading indicator
+                    View loadingIndicator = findViewById(R.id.progressBar1);
+                    loadingIndicator.setVisibility(View.VISIBLE);
+                    //Restart the loader
+                    getLoaderManager().restartLoader(STORY_LOADER_ID, null, lCallbacks);
+
+                }
+            }
+        };
+
+        //Obtain a reference to the app's SharedPreferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Register to be notified of preference changes
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
 
         //Setup the connectivity manager and check connection status
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -98,6 +128,9 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
 
 
     }
+    //TODO Get StoryActivity to reload when new search topic is entered
+    //TODO Add instructional text to TextInput
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,9 +149,26 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
+
     @Override
     public Loader<List<Story>> onCreateLoader(int id, Bundle args) {
-        return new StoryLoader(this, GUARDIAN_REQUEST_URL);
+
+        //invoke SharedPreferences
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //getString retrieves a String value from preferences
+        //the second parameter is the default value for this preference
+        String searchKey = sharedPrefs.getString(getString(R.string.topic_key), getString(R.string.settings_default_label));
+        //parse breaks apart URI String passed into its parameter
+        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
+        //buildUpon prepares the base Uri so that we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        //Add topic user enters as query parameter
+        uriBuilder.appendQueryParameter("q", searchKey);
+
+        return new StoryLoader(this, uriBuilder.toString());
     }
 
     @Override
