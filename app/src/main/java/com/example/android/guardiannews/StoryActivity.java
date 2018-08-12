@@ -46,8 +46,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
     private LoaderManager.LoaderCallbacks lCallbacks;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,8 +126,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
 
 
     }
-    //TODO Get StoryActivity to reload when new search topic is entered
-    //TODO Add instructional text to TextInput
 
 
     @Override
@@ -148,9 +144,6 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @Override
@@ -179,8 +172,8 @@ public class StoryActivity extends AppCompatActivity implements LoaderManager.Lo
         //Set empty state text view with id empty_view in activity_story.xml to empty state message
         mEmptyStateView.setText(R.string.no_news);
         /*If news stores are available then add them to the adapter
-        * and set mEmptyStateView visibility to GONE so it does not
-        * appear along with the desired ListView*/
+         * and set mEmptyStateView visibility to GONE so it does not
+         * appear along with the desired ListView*/
         if (stories != null && !stories.isEmpty()) {
             mAdapter.addAll(stories);
             mEmptyStateView.setVisibility(View.GONE);

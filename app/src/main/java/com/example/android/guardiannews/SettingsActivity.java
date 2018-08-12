@@ -1,7 +1,5 @@
 package com.example.android.guardiannews;
 
-import android.app.LoaderManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -41,7 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
             onPreferenceChange(preference, preferenceString);
         }
     }
-
 
 
 }
