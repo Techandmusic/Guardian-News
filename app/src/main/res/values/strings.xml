@@ -4,7 +4,7 @@
     <string name="no_internet">No Internet Connection Avaiable</string>
     <string name="no_author">Author Name Unavailable</string>
     <string name="settings_menu_item">Settings</string>
-    <string name="settings_title">Story Settings</string>
+    <string name="settings_title">Topic Search</string>
     <!--Preference Label strings -->
     <string name="topic_key" translatable="false">search_topic</string>
     <string name="settings_topic_label" translatable="false">Enter Search Topic</string>
